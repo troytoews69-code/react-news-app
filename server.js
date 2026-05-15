@@ -63,10 +63,30 @@ app.get('/api/news', async (req, res) => {
 
 app.use(express.static(distPath))
 
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'))
+app.get(/.*/, (_req, res) => {
+  const indexPath = path.join(distPath, 'index.html')
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error sending index.html:', err.message)
+      res.status(500).send('Error loading application')
+    }
+  })
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
+  console.log(`Serving static files from: ${distPath}`)
+})
+
+server.on('error', (err) => {
+  console.error('Server error:', err.message)
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use`)
+  }
+  process.exit(1)
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason)
+  process.exit(1)
 })
