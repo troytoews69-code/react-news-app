@@ -17,7 +17,6 @@ import {
   Typography,
 } from '@mui/material'
 
-const API_KEY = import.meta.env.VITE_GNEWS_API_KEY
 const CATEGORIES = [
   'breaking-news',
   'world',
@@ -49,25 +48,17 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    if (!API_KEY) {
-      const message = 'Missing API key. Add VITE_GNEWS_API_KEY to your .env file.'
-      console.error(message)
-      setError(message)
-      setLoading(false)
-      setArticles([])
-      return
-    }
-
+  const handleCategoryChange = (event) => {
     setLoading(true)
     setError('')
+    setCategory(event.target.value)
+  }
 
+  useEffect(() => {
     axios
-      .get(
-        `https://gnews.io/api/v4/top-headlines?topic=${category}&lang=en&max=10&token=${API_KEY}`,
-      )
+      .get(`/api/news?category=${category}`)
       .then((response) => {
-        setArticles(response.data.articles || [])
+        setArticles(response.data.articles || response.data.data?.articles || [])
         setLoading(false)
       })
       .catch((error) => {
@@ -154,7 +145,7 @@ function App() {
             labelId="category-select-label"
             label="Category"
             value={category}
-            onChange={(event) => setCategory(event.target.value)}
+            onChange={handleCategoryChange}
           >
             {CATEGORIES.map((option) => (
               <MenuItem key={option} value={option}>

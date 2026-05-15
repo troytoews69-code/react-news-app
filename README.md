@@ -1,16 +1,55 @@
-# React + Vite
+# React News App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+News app built with React, Vite, Material UI, and a small Express proxy API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Featured headline hero banner
+- Search by title and description
+- Category filtering
+- Loading and error states
+- Server-side proxy to GNews API (avoids browser CORS issues)
 
-## React Compiler
+## Environment Variables
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Create a `.env` file in the project root:
 
-## Expanding the ESLint configuration
+```env
+GNEWS_API_KEY=your_gnews_api_key_here
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Run Locally
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run frontend + backend together:
+
+```bash
+npm run dev:full
+```
+
+Or run separately:
+
+```bash
+npm run dev:server
+npm run dev
+```
+
+## Production Build
+
+```bash
+npm run build
+npm start
+```
+
+## Deploy to Render
+
+Use a Web Service with:
+
+- Build Command: `npm run build`
+- Start Command: `npm start`
+- Environment Variable: `GNEWS_API_KEY`
