@@ -19,9 +19,11 @@ import {
 
 const API_KEY = import.meta.env.VITE_GNEWS_API_KEY
 const CATEGORIES = [
+  'breaking-news',
+  'world',
+  'nation',
   'business',
   'entertainment',
-  'general',
   'health',
   'science',
   'sports',
@@ -43,7 +45,7 @@ function formatPublishedDate(value) {
 function App() {
   const [articles, setArticles] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [category, setCategory] = useState('general')
+  const [category, setCategory] = useState('breaking-news')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -148,7 +150,10 @@ function App() {
           >
             {CATEGORIES.map((option) => (
               <MenuItem key={option} value={option}>
-                {option.charAt(0).toUpperCase() + option.slice(1)}
+                {option
+                  .split('-')
+                  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+                  .join(' ')}
               </MenuItem>
             ))}
           </Select>
