@@ -72,7 +72,15 @@ function App() {
       })
       .catch((error) => {
         console.error(error)
-        setError('Unable to load news articles right now. Please try again.')
+        const apiMessage =
+          error?.response?.data?.errors?.[0] ||
+          error?.response?.data?.message ||
+          error?.message ||
+          'Unknown error'
+
+        setError(
+          `Unable to load news articles right now. Please try again. (${apiMessage})`,
+        )
         setLoading(false)
       })
   }, [category])
