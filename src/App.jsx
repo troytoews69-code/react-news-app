@@ -63,11 +63,20 @@ function App() {
       })
       .catch((error) => {
         console.error(error)
+        const status = error?.response?.status
         const apiMessage =
           error?.response?.data?.errors?.[0] ||
           error?.response?.data?.message ||
           error?.message ||
           'Unknown error'
+
+        if (status === 404) {
+          setError(
+            'Unable to load news articles right now. Please try again. (News API route not found. Make sure Render is deployed as a Web Service and start command is npm start.)',
+          )
+          setLoading(false)
+          return
+        }
 
         setError(
           `Unable to load news articles right now. Please try again. (${apiMessage})`,
