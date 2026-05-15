@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material'
 
-const API_KEY = import.meta.env.VITE_NEWS_API_KEY
+const API_KEY = import.meta.env.VITE_GNEWS_API_KEY
 const CATEGORIES = [
   'business',
   'entertainment',
@@ -49,7 +49,7 @@ function App() {
 
   useEffect(() => {
     if (!API_KEY) {
-      const message = 'Missing API key. Add VITE_NEWS_API_KEY to your .env file.'
+      const message = 'Missing API key. Add VITE_GNEWS_API_KEY to your .env file.'
       console.error(message)
       setError(message)
       setLoading(false)
@@ -62,7 +62,7 @@ function App() {
 
     axios
       .get(
-        `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${API_KEY}`,
+        `https://gnews.io/api/v4/top-headlines?topic=${category}&lang=en&max=10&token=${API_KEY}`,
       )
       .then((response) => {
         setArticles(response.data.articles || [])
@@ -170,7 +170,7 @@ function App() {
               overflow: 'hidden',
               minHeight: { xs: 260, md: 360 },
               mb: 3,
-              backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.72) 100%), url(${featuredArticle.urlToImage || 'https://via.placeholder.com/1400x800?text=Top+Headline'})`,
+              backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.72) 100%), url(${featuredArticle.image || 'https://via.placeholder.com/1400x800?text=Top+Headline'})`,  
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               display: 'flex',
